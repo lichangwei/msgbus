@@ -2,8 +2,8 @@
 (function(){
 
 function MsgBus( prefix ){
-  this.prefix = prefix ? prefix + "." : "";
-  set[prefix||""] = this;
+  this.prefix = prefix ? prefix + '.' : '';
+  set[prefix||''] = this;
 }
 MsgBus.prototype = {
   on: function( msg, method, opt ){
@@ -28,7 +28,7 @@ MsgBus.prototype = {
   },
   
   fire: function( msg, data, opt ){
-    var async = opt && opt.async !== void 0 ? opt.async : this.global("async");
+    var async = opt && opt.async !== void 0 ? opt.async : this.global('async');
     this.prefix && ( msg = this.prefix + msg );
     if( !async ) fire( msg, data );
     else setTimeout( function(){fire(msg, data);}, 0 );
@@ -53,7 +53,7 @@ MsgBus.prototype = {
   },
   
   getInstance: function( prefix ){
-    return set[prefix||""] || new MsgBus( prefix );
+    return set[prefix||''] || new MsgBus( prefix );
   }
 };
 
@@ -69,7 +69,7 @@ function getListeners( msg ){
 
 function createListener( msgbus, msg, method, opt ){
   var ln = new Listener( msg, method, opt );
-  if( typeof opt.enable === "string" ){
+  if( typeof opt.enable === 'string' ){
     msgbus.on( opt.enable, function( bool ){
       return bool ? ln.enable() : ln.disable();
     });
@@ -86,7 +86,7 @@ function Listener( msg, method, opt ){
 Listener.prototype = {
   _handle: function( data ){
     if( this.enabled === false ){
-      this._delay = function(){ this._notify( data ) };
+      this._delay = function(){ this._notify(data); };
     }else{
       this._notify( data );
     }
@@ -164,18 +164,18 @@ Join.prototype = {
 };
 
 function createNotifier( method, obj ){
-  if( typeof method === "string" && obj ){
-    return function( data ){ obj[method]( data ) };
-  }else if( typeof method === "function" && obj ){
+  if( typeof method === 'string' && obj ){
+    return function( data ){ obj[method](data); };
+  }else if( typeof method === 'function' && obj ){
     return function( data ){ method.call( obj, data ); };
-  }else if( typeof method === "function" ){
+  }else if( typeof method === 'function' ){
     return function( data ){ method( data ); };
   }
-  throw TypeError("Cannot create a listener.");
+  throw TypeError('Cannot create a listener.');
 }
 
 function fire( msg, data ){
-  var lns = getListeners(msg); 
+  var lns = getListeners(msg);
   var now = new Date();
   var opt, ln;
   for( var i in lns ){
